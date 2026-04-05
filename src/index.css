@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Scope+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000');
 @import "tailwindcss";
 
 @theme {
-    --font-primary: "Scope One", serif;
+    --font-primary: "Google Sans Flex", sans-serif;
 }
 
 h1 {
-    @apply text-3xl;
+    @apply text-2xl md:text-3xl;
 }
 
 h2 {

@@ -6,7 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import { useLocalStorage } from "../useLocalStorage";
 
 const NotebookForm = () => {
-    const [success, setSuccess] = useState(false);
+    const [notebookId, setNotebookId] = useState<string | null>(null);//store notebook id
+    const [success, setSuccess] = useState(false);//save action alert
     const titleRef = useRef<HTMLInputElement>(null);
     //const [notebook, setNotebook] = useState<Notebook>();
     const [cellContents, setCellContents] = useState<string[]>(['']);
@@ -118,14 +119,23 @@ const NotebookForm = () => {
     const { saveNotebook } = useLocalStorage();
     const handleSaveNotebook = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        const id = notebookId || uuidv4(); //reuse or create new id
+
         //create notebook object
         const newNotebook: Notebook = {
-            id: uuidv4(),
+            id,
             title: titleRef.current?.value || "Untitled_Notebook",
             markdown: cellContents,
         };
         //save notebook object to storage
         saveNotebook(newNotebook);
+
+        // if new notebook, store id for future saves
+        if(!notebookId) {
+            setNotebookId(id);
+        }
+
         //alert user
         setSuccess(true);
         setTimeout(() => {setSuccess(false)}, 2000)
@@ -133,13 +143,13 @@ const NotebookForm = () => {
 
   return (
     <form className="flex flex-col py-4 gap-2 relative" onSubmit={handleSaveNotebook}>
-        <section className="border-b border-b-slate-400 pb-4 mb-2 flex items-center justify-between gap-4">
+        <section className="border-b border-b-slate-400 pb-4 mb-2 flex items-center justify-between gap-2 md:gap-4">
 
             {/* Title */}
-            <input className="border-2 border-slate-400 text-slate-900 text-xl outline-0 p-2 focus:border-slate-600 rounded-sm" name="title" type="text" placeholder="Title" ref={titleRef} />
+            <input className="border-2 border-slate-400 text-slate-900 text-xl outline-0 p-2 focus:border-slate-600 rounded-sm w-2/3 md:w-fit" name="title" type="text" placeholder="Title" ref={titleRef} />
 
             {/* Notebook toolbar */}
-            <div className="flex items-center gap-8 p-2">
+            <div className="flex items-center gap-4 md:gap-8 p-2">
                 <button type="submit" className="cursor-pointer text-slate-500 hover:text-slate-600 transition-colors">
                     {/* Saving Alert */}
                     {success ? (

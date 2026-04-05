@@ -1,8 +1,10 @@
 import { Navigate, Route, Routes } from "react-router-dom"
-import NewNotebook from "./components/NewNotebook"
-import ViewNotebook from "./components/ViewNotebook"
+import NewNotebook from "./NewNotebook"
+import ViewNotebook from "./ViewNotebook"
 import EditNotebook from "./components/EditNotebook"
-import { useLocalStorage } from "./useLocalStorage"
+import HomePage from "./HomePage"
+import Header from "./components/Header"
+import AboutPage from "./AboutPage"
 
 export type Notebook = {
   id: string
@@ -16,9 +18,11 @@ export type NotebookData = {
 const App = () => {
 
   return (
-    <div className="m-4 lg:mx-64 font-primary">
+    <div className="xl:mx-64 font-primary">
+      <Header />
       <Routes>
-        <Route path="/" element={<h1>Home</h1>} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/new" element={<NewNotebook />} />
         <Route path="/:id">
           <Route index element={<ViewNotebook />} />
