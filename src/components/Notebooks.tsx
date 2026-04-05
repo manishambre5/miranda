@@ -1,7 +1,18 @@
 import { Plus } from "lucide-react"
 import { Link } from "react-router-dom"
+import type { Notebook } from "../App";
+import { useEffect, useState } from "react";
 
 const Notebooks = () => {
+    const [storedNotebooks, setStoredNotebooks] = useState<Notebook[]>([]);
+    const filteredNotebooks = storedNotebooks;
+
+    useEffect(() => {
+        const keys = Object.keys(localStorage).filter(k => k.startsWith("miranda"));
+        const notebooks = keys.map(k => JSON.parse(localStorage.getItem(k) || "{}") as Notebook);
+        setStoredNotebooks(notebooks);
+    }, []);
+
   return (
     <div className="flex flex-col gap-4">
         <div className="py-4 flex items-center justify-center gap-4 flex-wrap">
@@ -17,11 +28,12 @@ const Notebooks = () => {
 
         {/* Exisitng Notebooks */}
         <section className="py-4">
-            <div className="grid grid-cols-4 gap-4">
-                <div className="aspect-square bg-slate-200 rounded-sm"></div>
-                <div className="aspect-square bg-slate-100 rounded-sm"></div>
-                <div className="aspect-square bg-slate-50 rounded-sm"></div>
-                <div className="aspect-square bg-slate-100 rounded-sm"></div>
+            <div className="grid grid-cols-1 gap-4">
+                {filteredNotebooks.map(notebook => (
+                    <div key={notebook.id}>
+                        <div className="p-2 border-2 border-slate-400 bg-slate-50 rounded-sm text-lg text-slate-600 hover:text-slate-900 hover:border-slate-900 transition-colors cursor-pointer">{notebook.title}</div>
+                    </div>
+                ))}
             </div>
         </section>
     </div>

@@ -120,7 +120,7 @@ const NotebookForm = () => {
     const handleSaveNotebook = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const id = notebookId || uuidv4(); //reuse or create new id
+        const id = notebookId || "miranda"+uuidv4(); //reuse or create new id
 
         //create notebook object
         const newNotebook: Notebook = {
