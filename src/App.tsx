@@ -1,10 +1,11 @@
-import { Navigate, Route, Routes } from "react-router-dom"
+import { Navigate } from "react-router-dom"
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NewNotebook from "./NewNotebook"
 import ViewNotebook from "./ViewNotebook"
 import EditNotebook from "./components/EditNotebook"
 import HomePage from "./HomePage"
-import Header from "./components/Header"
 import AboutPage from "./AboutPage"
+import RootLayout from "./RootLayout";
 
 export type Notebook = {
   id: string
@@ -15,23 +16,28 @@ export type NotebookData = {
   markdown: string[]
 }
 
-const App = () => {
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />, // Move your Header and Div wrapper here
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: "about", element: <AboutPage /> },
+      { path: "new", element: <NewNotebook /> },
+      {
+        path: ":id",
+        children: [
+          { index: true, element: <ViewNotebook /> },
+          { path: "edit", element: <EditNotebook /> },
+        ],
+      },
+      { path: "*", element: <Navigate to="/" /> },
+    ],
+  },
+], {
+  basename: import.meta.env.BASE_URL
+});
 
-  return (
-    <div className="xl:mx-64 font-primary">
-      <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/new" element={<NewNotebook />} />
-        <Route path="/:id">
-          <Route index element={<ViewNotebook />} />
-          <Route path="edit" index element={<EditNotebook />} />
-        </Route>
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </div>
-  )
-}
+const App = () => <RouterProvider router={router} />;
 
 export default App
