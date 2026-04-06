@@ -1,17 +1,27 @@
-import { Plus } from "lucide-react"
+import { BookOpenText, Plus, Star, Trash } from "lucide-react"
 import { Link } from "react-router-dom"
-import type { Notebook } from "../App";
-import { useEffect, useState } from "react";
+import { useLocalStorage } from "../useLocalStorage";
 
 const Notebooks = () => {
-    const [storedNotebooks, setStoredNotebooks] = useState<Notebook[]>([]);
-    const filteredNotebooks = storedNotebooks;
+    const { storedNotebooks, deleteNotebook, favouriteNotebook } = useLocalStorage();
 
-    useEffect(() => {
-        const keys = Object.keys(localStorage).filter(k => k.startsWith("miranda"));
-        const notebooks = keys.map(k => JSON.parse(localStorage.getItem(k) || "{}") as Notebook);
-        setStoredNotebooks(notebooks);
-    }, []);
+    //trigger notebook delete
+    const delNotebook = (e:React.MouseEvent<HTMLButtonElement>, id:string) => {
+        e.preventDefault();
+        deleteNotebook(id);
+
+        //trigger re-render
+        //setStoredNotebooks(storedNotebooks);
+    }
+
+    //toggle favourite flag for a notebook
+    const favNotebook = (e:React.MouseEvent<HTMLButtonElement>, id:string) => {
+        e.preventDefault();
+        favouriteNotebook(id);
+
+        //trigger re-render
+        //setStoredNotebooks(storedNotebooks);
+    }
 
   return (
     <div className="flex flex-col gap-4">
@@ -29,9 +39,12 @@ const Notebooks = () => {
         {/* Exisitng Notebooks */}
         <section className="py-4">
             <div className="flex flex-col w-full gap-4">
-                {filteredNotebooks.map(notebook => (
-                    <div className="flex" key={notebook.id}>
-                        <Link className="w-full p-2 border-l-4 border-slate-400 bg-slate-50 text-lg text-slate-600 hover:text-slate-900 hover:border-slate-900 hover:bg-slate-100 transition-colors cursor-pointer" to={`/${notebook.id}`}>{notebook.title}</Link>
+                {storedNotebooks.map(notebook => (
+                    <div className={`flex items-center gap-1 border-l-4 border-slate-400 ${notebook.fav === true ? "bg-slate-100 font-semibold" : "bg-slate-50"} hover:border-slate-900 hover:bg-slate-100 transition-colors group`} key={notebook.id}>
+                        <Link className="p-2 w-full text-lg text-slate-600 hover:text-slate-900 cursor-pointer" to={`/${notebook.id}`}>{notebook.title}</Link>
+                        <button className="group-hover:block md:hidden ml-auto text-slate-400 hover:text-slate-600 transition-all cursor-pointer p-2"><BookOpenText /></button>
+                        <button className="group-hover:block md:hidden ml-auto text-slate-400 hover:text-slate-600 transition-all cursor-pointer p-2" onClick={(e) => favNotebook(e, notebook.id)}><Star className={notebook.fav === true ? "fill-slate-400" : ""} /></button>
+                        <button className="group-hover:block md:hidden ml-auto text-slate-400 hover:text-slate-600 transition-all cursor-pointer p-2" onClick={(e) => delNotebook(e, notebook.id)}><Trash /></button>
                     </div>
                 ))}
             </div>

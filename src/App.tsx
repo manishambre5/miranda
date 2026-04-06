@@ -9,6 +9,7 @@ import ReadNotebook from "./ReadNotebook";
 
 export type Notebook = {
   id: string
+  fav: boolean
 } & NotebookData
 
 export type NotebookData = {

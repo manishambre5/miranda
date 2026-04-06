@@ -7,9 +7,10 @@ import { useLocalStorage } from "../useLocalStorage";
 
 type NotebookFormProps = {
     existingNotebookId?: string;
+    isFav?: boolean;
 };
 
-const NotebookForm: React.FC<NotebookFormProps> = ({ existingNotebookId }) => {
+const NotebookForm: React.FC<NotebookFormProps> = ({ existingNotebookId, isFav }) => {
     const [notebookId, setNotebookId] = useState<string | null>(null);//store notebook id
     const [success, setSuccess] = useState(false);//save action alert
     const titleRef = useRef<HTMLInputElement>(null);
@@ -134,15 +135,18 @@ const NotebookForm: React.FC<NotebookFormProps> = ({ existingNotebookId }) => {
     const handleSaveNotebook = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const id = notebookId || "miranda"+uuidv4(); //reuse or create new id
+        const id = notebookId || existingNotebookId || "miranda" + uuidv4(); //reuse or create new id
+
+        const fav = isFav || false
 
         //create notebook object
         const newNotebook: Notebook = {
             id,
+            fav,
             title: titleRef.current?.value || "Untitled_Notebook",
             markdown: cellContents,
         };
-        //save notebook object to storage
+        //save notebook object to localStorage
         saveNotebook(newNotebook);
 
         // if new notebook, store id for future saves
@@ -152,7 +156,7 @@ const NotebookForm: React.FC<NotebookFormProps> = ({ existingNotebookId }) => {
 
         //alert user
         setSuccess(true);
-        setTimeout(() => {setSuccess(false)}, 2000)
+        setTimeout(() => {setSuccess(false)}, 1000)
     }
 
     // get notebook for editing using custom hook
