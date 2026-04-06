@@ -27,6 +27,16 @@ const NotebookForm: React.FC<NotebookFormProps> = ({ existingNotebookId }) => {
         setCellContents(newCellContent); //paste it back to where it was copied from
     }
 
+    // handle cell length for existing notebook in EditNotebook page
+    useEffect(() => {
+        cellRefs.current.forEach((textarea) => {
+            if (textarea) {
+                textarea.style.height = "auto";
+                textarea.style.height = `${textarea.scrollHeight}px`;
+            }
+        });
+    }, [cellContents]);
+
     // add new empty cell
     const addCell = () => {
         setCellContents([...cellContents, '']);
