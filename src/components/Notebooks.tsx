@@ -28,10 +28,10 @@ const Notebooks = () => {
 
         {/* Exisitng Notebooks */}
         <section className="py-4">
-            <div className="grid grid-cols-1 gap-4">
+            <div className="flex flex-col w-full gap-4">
                 {filteredNotebooks.map(notebook => (
-                    <div key={notebook.id}>
-                        <div className="p-2 border-2 border-slate-400 bg-slate-50 rounded-sm text-lg text-slate-600 hover:text-slate-900 hover:border-slate-900 transition-colors cursor-pointer">{notebook.title}</div>
+                    <div className="flex" key={notebook.id}>
+                        <Link className="w-full p-2 border-l-4 border-slate-400 bg-slate-50 text-lg text-slate-600 hover:text-slate-900 hover:border-slate-900 hover:bg-slate-100 transition-colors cursor-pointer" to={`/${notebook.id}`}>{notebook.title}</Link>
                     </div>
                 ))}
             </div>

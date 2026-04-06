@@ -1,11 +1,11 @@
 import { Navigate } from "react-router-dom"
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NewNotebook from "./NewNotebook"
-import ViewNotebook from "./ViewNotebook"
-import EditNotebook from "./components/EditNotebook"
+import EditNotebook from "./EditNotebook"
 import HomePage from "./HomePage"
 import AboutPage from "./AboutPage"
 import RootLayout from "./RootLayout";
+import ReadNotebook from "./ReadNotebook";
 
 export type Notebook = {
   id: string
@@ -27,8 +27,8 @@ const router = createBrowserRouter([
       {
         path: ":id",
         children: [
-          { index: true, element: <ViewNotebook /> },
-          { path: "edit", element: <EditNotebook /> },
+          { index: true, element: <EditNotebook /> },
+          { path: "read", element: <ReadNotebook /> },
         ],
       },
       { path: "*", element: <Navigate to="/" /> },

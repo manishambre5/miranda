@@ -1,11 +1,15 @@
 import { ArrowDown, ArrowUp, Download, Loader, Plus, Save, Trash, X } from "lucide-react";
-import { useRef, useState, type ChangeEvent } from "react"
+import { useEffect, useRef, useState, type ChangeEvent } from "react"
 import { Link } from "react-router-dom";
 import type { Notebook } from "../App";
 import { v4 as uuidv4 } from "uuid";
 import { useLocalStorage } from "../useLocalStorage";
 
-const NotebookForm = () => {
+type NotebookFormProps = {
+    existingNotebookId?: string;
+};
+
+const NotebookForm: React.FC<NotebookFormProps> = ({ existingNotebookId }) => {
     const [notebookId, setNotebookId] = useState<string | null>(null);//store notebook id
     const [success, setSuccess] = useState(false);//save action alert
     const titleRef = useRef<HTMLInputElement>(null);
@@ -140,6 +144,21 @@ const NotebookForm = () => {
         setSuccess(true);
         setTimeout(() => {setSuccess(false)}, 2000)
     }
+
+    // get notebook for editing using custom hook
+    const { getNotebook } = useLocalStorage();
+    useEffect(() => {
+        if (!existingNotebookId) return;
+
+        const notebook = getNotebook(existingNotebookId);
+        if (!notebook) return;
+
+        setCellContents(notebook.markdown);
+
+        if (titleRef.current) {
+            titleRef.current.value = notebook.title;
+        }
+    }, [existingNotebookId]);
 
   return (
     <form className="flex flex-col py-4 gap-2 relative" onSubmit={handleSaveNotebook}>
