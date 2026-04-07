@@ -1,26 +1,42 @@
-import { BookOpenText, Plus, Star, Trash } from "lucide-react"
-import { Link } from "react-router-dom"
+import { BookOpenText, Command, Plus, Star, Trash } from "lucide-react"
+import { Link, useNavigate } from "react-router-dom"
 import { useLocalStorage } from "../useLocalStorage";
+import { useEffect, useRef } from "react";
 
 const Notebooks = () => {
     const { storedNotebooks, deleteNotebook, favouriteNotebook } = useLocalStorage();
+    const navigate = useNavigate();
+    const searchInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        const handleKeyboardInput = (e: KeyboardEvent) => {
+        //ctrl/cmd + k to search
+        if ((e.ctrlKey || e.metaKey) && e.code === "KeyK") {
+            e.preventDefault();
+            searchInputRef.current?.focus();
+        }
+        //alt/opt + n to create new notebook
+        if((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+            e.preventDefault();
+            navigate("/new");
+        }
+        }
+        window.addEventListener("keydown", handleKeyboardInput);
+
+        //cleanup the event listener when the component is unmounted
+        return () => window.removeEventListener("keydown", handleKeyboardInput);
+    }, [navigate]);
 
     //trigger notebook delete
     const delNotebook = (e:React.MouseEvent<HTMLButtonElement>, id:string) => {
         e.preventDefault();
         deleteNotebook(id);
-
-        //trigger re-render
-        //setStoredNotebooks(storedNotebooks);
     }
 
     //toggle favourite flag for a notebook
     const favNotebook = (e:React.MouseEvent<HTMLButtonElement>, id:string) => {
         e.preventDefault();
         favouriteNotebook(id);
-
-        //trigger re-render
-        //setStoredNotebooks(storedNotebooks);
     }
 
   return (
@@ -32,7 +48,7 @@ const Notebooks = () => {
                 <p className="text-lg p-1">New</p>
             </Link>
             <form className="sm:ml-auto">
-                <input className="border-2 border-slate-400 text-slate-900 text-xl outline-0 p-2 focus:border-slate-600 rounded-sm w-auto" name="title" type="search" placeholder="Search" />
+                <input className="border-2 border-slate-400 text-slate-900 text-xl outline-0 p-2 focus:border-slate-600 rounded-sm w-auto" name="title" type="search" placeholder="Search (⌘K)" ref={searchInputRef} />
             </form>
         </div>
 

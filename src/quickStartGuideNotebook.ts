@@ -11,7 +11,7 @@ export const quickStartGuideNotebook = () => {
     title: "Quick Start Guide",
     markdown: [
         "# Welcome to the Miranda Notebooks!\nThis is a brief guide (work in progress) to get you started...",
-        "Keyboard shortcuts:\n - cmd/ctrl + Enter: Create a new cell\n - cmd/ctrl + Backspace: Delete cell\n",
+        "Keyboard shortcuts:\n - cmd/ctrl + Enter: Create a new notebook / cell\n - cmd/ctrl + Backspace: Delete cell\n - cmd/ctrl + ↓: Move cell downwards\n - cmd/ctrl + ↑: Move cell upwards\n - cmd/ctrl + k: Search\n",
     ],
     fav: true,
     };

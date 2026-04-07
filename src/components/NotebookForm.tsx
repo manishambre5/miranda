@@ -18,6 +18,11 @@ const NotebookForm: React.FC<NotebookFormProps> = ({ existingNotebookId, isFav }
     const [cellContents, setCellContents] = useState<string[]>(['']);
     const cellRefs = useRef<(HTMLTextAreaElement | null) []>([]);
 
+    const processingAnimate = () => {
+        setSuccess(true);
+        setTimeout(() => {setSuccess(false)}, 1000);
+    }
+
     // dynamic cell length
     const handleCellLengthChange = (index:number, e:ChangeEvent<HTMLTextAreaElement>) => {
         const cell = e.target;
@@ -128,6 +133,18 @@ const NotebookForm: React.FC<NotebookFormProps> = ({ existingNotebookId, isFav }
         if((e.ctrlKey || e.metaKey) && e.key === "Backspace") {
             delCell(index);
         }
+        //ctrl/cmd + ↓ to move cell down
+        if((e.ctrlKey || e.metaKey) && e.key === "ArrowDown") {
+            e.preventDefault();
+            if (index + 1 < cellContents.length)
+                moveCell(index, index+1);
+        }
+        //ctrl/cmd + ↑ to move cell up
+        if((e.ctrlKey || e.metaKey) && e.key === "ArrowUp") {
+            e.preventDefault();
+            if (index - 1 >= 0)
+                moveCell(index, index-1);
+        }
     }
 
     //SAVE NOTEBOOK using custom hook
@@ -154,9 +171,8 @@ const NotebookForm: React.FC<NotebookFormProps> = ({ existingNotebookId, isFav }
             setNotebookId(id);
         }
 
-        //alert user
-        setSuccess(true);
-        setTimeout(() => {setSuccess(false)}, 1000)
+        //show user
+        processingAnimate();
     }
 
     // get notebook for editing using custom hook
@@ -184,7 +200,7 @@ const NotebookForm: React.FC<NotebookFormProps> = ({ existingNotebookId, isFav }
             {/* Notebook toolbar */}
             <div className="flex items-center gap-4 md:gap-8 p-2">
                 <button type="submit" className="cursor-pointer text-slate-500 hover:text-slate-600 transition-colors">
-                    {/* Saving Alert */}
+                    {/* Saving Cue */}
                     {success ? (
                         <Loader className="animate-spin" />
                     ) : (
@@ -234,7 +250,9 @@ const NotebookForm: React.FC<NotebookFormProps> = ({ existingNotebookId, isFav }
             <button
                 className="border-2 border-slate-50 bg-slate-50 text-slate-400 outline-0 hover:border-slate-400 focus:text-slate-50 focus:bg-slate-400 transition-colors rounded-sm flex justify-center p-2"
                 onClick={addCellButton}
-            ><Plus /></button>
+            >
+                <Plus />
+            </button>
 
         </section>
     </form>
