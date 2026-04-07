@@ -1,4 +1,4 @@
-import { BookOpenText, Command, Plus, Star, Trash } from "lucide-react"
+import { BookOpenText, Plus, Star, Trash } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { useLocalStorage } from "../useLocalStorage";
 import { useEffect, useRef } from "react";
