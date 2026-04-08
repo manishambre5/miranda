@@ -6,7 +6,7 @@ import { SearchProvider } from "./SearchModalContext";
 const RootLayout = () => {
   return (
     <SearchProvider>
-      <div className="xl:px-64 font-primary">
+      <div className="md:px-24 lg:px-40 xl:px-64 font-primary">
         <Header />
         <Search />
 

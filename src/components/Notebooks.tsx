@@ -48,15 +48,15 @@ const Notebooks = () => {
 
   return (
     <div className="flex flex-col gap-4">
-        <div className="py-4 flex items-center justify-center gap-2 sm:gap-4 flex-nowrap">
+        <div className="pt-4 flex items-center justify-center gap-2 sm:gap-4 flex-nowrap">
             <h1 className="text-nowrap">My Notebooks</h1>
-            <Link to={"/new"} className="border-2 border-slate-400 px-2 bg-slate-50 text-slate-600 hover:border-slate-600 hover:text-slate-900 transition-colors rounded-sm flex justify-between items-center h-12">
+            <Link to={"/new"} className="border-2 border-slate-400 px-2 bg-slate-50 text-slate-600 hover:border-slate-600 hover:text-slate-900 transition-colors rounded-sm flex justify-between items-center h-10 sm:h-12">
                 <Plus className="w-6 h-6" />
                 <p className="text-lg p-1">New</p>
             </Link>
-            <button className="ml-auto border-2 border-slate-400 px-2 bg-slate-50 text-slate-600 hover:border-slate-600 hover:text-slate-900 transition-colors rounded-sm flex justify-between items-center gap-2 h-12" name="search-button" onClick={openSearchButton}>
+            <button className="ml-auto border-2 border-slate-400 px-2 bg-slate-50 text-slate-600 hover:border-slate-600 hover:text-slate-900 transition-colors rounded-sm flex justify-between items-center gap-2 h-10 sm:h-12" name="search-button" onClick={openSearchButton}>
                 <Search className="w-6 h-6" />
-                <p className="text-lg px-1 border-2 border-slate-400 rounded-sm">⌘K</p>
+                <p className="text-lg px-1 bg-slate-400 text-slate-50 rounded-sm">⌘K</p>
             </button>
         </div>
 

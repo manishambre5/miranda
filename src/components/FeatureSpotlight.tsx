@@ -1,19 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type ReactElement } from 'react';
 
 import notebookIcon from '../assets/undraw_notebook_jy1h.svg';
 import cellsIcon from '../assets/undraw_notes_dyq8.svg';
 import guideIcon from '../assets/undraw_work-in-progress_m95a.svg';
 
-const SLIDES = [
-  { src: notebookIcon, tagline: 'Capture your thoughts in a miranda notebook.' },
+interface Slide {
+  src: string;
+  tagline: string;
+}
+
+const SLIDES: readonly Slide[] = [
+  { src: notebookIcon, tagline: 'Capture your thoughts in a notebook.' },
   { src: cellsIcon, tagline: 'Organize with dynamic cells.' },
   { src: guideIcon, tagline: 'Check out the Quick Start Guide to get started!' },
 ];
 
-const FeatureSpotlight = () => {
+const FeatureSpotlight = (): ReactElement | null => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
+
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % SLIDES.length);
     }, 4000);
@@ -26,7 +32,7 @@ const FeatureSpotlight = () => {
       <div className="relative w-full h-96 flex items-center justify-center">
         {SLIDES.map((slide, i) => (
             <div key={slide.src} className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-1000 ease-in-out ${i === index ? "opacity-100 visible" : "opacity-0 invisible"}`}>
-                <img src={slide.src} alt={slide.tagline} className="w-full h-full mb-6 drop-shadow-sm transition-transform duration-700" />
+                <img src={slide.src} alt="" className="w-full h-full mb-6 drop-shadow-sm transition-transform duration-700 object-contain" />
                 <p className="text-balance text-xl font-medium tracking-tight text-slate-600">
                     {slide.tagline}
                 </p>
