@@ -1,19 +1,19 @@
-import { BookOpenText, Plus, Star, Trash } from "lucide-react"
+import { BookOpenText, Plus, Search, Star, Trash } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { useLocalStorage } from "../useLocalStorage";
-import { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
+import { useSearch } from "../SearchModalContext";
 
 const Notebooks = () => {
     const { storedNotebooks, deleteNotebook, favouriteNotebook } = useLocalStorage();
     const navigate = useNavigate();
-    const searchInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         const handleKeyboardInput = (e: KeyboardEvent) => {
         //ctrl/cmd + k to search
         if ((e.ctrlKey || e.metaKey) && e.code === "KeyK") {
             e.preventDefault();
-            searchInputRef.current?.focus();
+            
         }
         //alt/opt + n to create new notebook
         if((e.ctrlKey || e.metaKey) && e.key === "Enter") {
@@ -39,17 +39,25 @@ const Notebooks = () => {
         favouriteNotebook(id);
     }
 
+    //open search modal with context
+    const { openSearch } = useSearch();
+    const openSearchButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        openSearch();
+    }
+
   return (
     <div className="flex flex-col gap-4">
-        <div className="py-4 flex items-center justify-center gap-4 flex-wrap">
+        <div className="py-4 flex items-center justify-center gap-2 sm:gap-4 flex-nowrap">
             <h1 className="text-nowrap">My Notebooks</h1>
-            <Link to={"/new"} className="border-2 border-slate-400 py-1 px-2 bg-slate-50 text-slate-600 hover:border-slate-600 hover:text-slate-900 transition-colors rounded-sm flex justify-between items-center">
+            <Link to={"/new"} className="border-2 border-slate-400 px-2 bg-slate-50 text-slate-600 hover:border-slate-600 hover:text-slate-900 transition-colors rounded-sm flex justify-between items-center h-12">
                 <Plus className="w-6 h-6" />
                 <p className="text-lg p-1">New</p>
             </Link>
-            <form className="sm:ml-auto">
-                <input className="border-2 border-slate-400 text-slate-900 text-xl outline-0 p-2 focus:border-slate-600 rounded-sm w-auto" name="title" type="search" placeholder="Search (⌘K)" ref={searchInputRef} />
-            </form>
+            <button className="ml-auto border-2 border-slate-400 px-2 bg-slate-50 text-slate-600 hover:border-slate-600 hover:text-slate-900 transition-colors rounded-sm flex justify-between items-center gap-2 h-12" name="search-button" onClick={openSearchButton}>
+                <Search className="w-6 h-6" />
+                <p className="text-lg px-1 border-2 border-slate-400 rounded-sm">⌘K</p>
+            </button>
         </div>
 
         {/* Exisitng Notebooks */}

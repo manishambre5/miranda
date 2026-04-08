@@ -1,0 +1,9 @@
+- debouncing for auto-save
+- search function
+- tags
+- localStorage -> indexedDB switch
+- markdown support
+- markdown viewer
+- export/download function
+- PWA
+- sort notebooks alphabetically, time, etc via a single toggle

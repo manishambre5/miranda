@@ -1,22 +1,20 @@
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
+import Search from "./components/Search";
+import { SearchProvider } from "./SearchModalContext";
 
 const RootLayout = () => {
   return (
-    <div className="xl:mx-64 font-primary">
-      {/* The Header stays mounted globally. 
-          It won't re-render when you switch pages! 
-      */}
-      <Header />
+    <SearchProvider>
+      <div className="xl:px-64 font-primary">
+        <Header />
+        <Search />
 
-      <main className="mt-8">
-        {/* The Outlet is a placeholder. 
-            React Router will swap this out for 
-            whatever child route is currently active.
-        */}
-        <Outlet />
-      </main>
-    </div>
+        <main className="mt-8">
+          <Outlet />
+        </main>
+      </div>
+    </SearchProvider>
   );
 };
 
