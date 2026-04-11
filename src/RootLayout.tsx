@@ -9,8 +9,7 @@ const RootLayout = () => {
       <div className="md:px-24 lg:px-40 xl:px-64 font-primary">
         <Header />
         <Search />
-
-        <main className="mt-8">
+        <main className="py-4">
           <Outlet />
         </main>
       </div>

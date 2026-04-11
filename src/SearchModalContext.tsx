@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useCallback, useContext, useState } from 'react';
 
 const SearchContext = createContext({
   isSearchOpen: false,
@@ -9,8 +9,8 @@ const SearchContext = createContext({
 export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
   const [isSearchOpen, setIsOpen] = useState(false);
 
-  const openSearch = () => setIsOpen(true);
-  const closeSearch = () => setIsOpen(false);
+  const openSearch = useCallback(() => setIsOpen(true), []);
+  const closeSearch = useCallback(() => setIsOpen(false), []);
 
   return (
     <SearchContext.Provider value={{ isSearchOpen, openSearch, closeSearch }}>

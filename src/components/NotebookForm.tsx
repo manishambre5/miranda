@@ -20,7 +20,7 @@ const NotebookForm: React.FC<NotebookFormProps> = ({ existingNotebookId, isFav }
 
     const processingAnimate = () => {
         setSuccess(true);
-        setTimeout(() => {setSuccess(false)}, 1000);
+        setTimeout(() => {setSuccess(false)}, 500);
     }
 
     // dynamic cell length
@@ -171,7 +171,7 @@ const NotebookForm: React.FC<NotebookFormProps> = ({ existingNotebookId, isFav }
             setNotebookId(id);
         }
 
-        //show user
+        //show user that the notebook has been saved
         processingAnimate();
     }
 

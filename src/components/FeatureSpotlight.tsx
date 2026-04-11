@@ -29,7 +29,7 @@ const FeatureSpotlight = (): ReactElement | null => {
 
   return (
     <div className="flex flex-col items-center justify-center h-full w-full p-4 text-center select-none">
-      <div className="relative w-full h-96 flex items-center justify-center">
+      <div className="relative w-full min-h-80 flex items-center justify-center">
         {SLIDES.map((slide, i) => (
             <div key={slide.src} className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-1000 ease-in-out ${i === index ? "opacity-100 visible" : "opacity-0 invisible"}`}>
                 <img src={slide.src} alt="" className="w-full h-full mb-6 drop-shadow-sm transition-transform duration-700 object-contain" />

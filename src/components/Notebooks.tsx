@@ -56,7 +56,7 @@ const Notebooks = () => {
             </Link>
             <button className="ml-auto border-2 border-slate-400 px-2 bg-slate-50 text-slate-600 hover:border-slate-600 hover:text-slate-900 transition-colors rounded-sm flex justify-between items-center gap-2 h-10 sm:h-12" name="search-button" onClick={openSearchButton}>
                 <Search className="w-6 h-6" />
-                <p className="text-lg px-1 bg-slate-400 text-slate-50 rounded-sm">⌘K</p>
+                <p className="border-2 px-1 border-slate-400 text-slate-400 rounded-sm">⌘K</p>
             </button>
         </div>
 

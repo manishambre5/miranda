@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import type { Notebook } from "./App";
-import { quickStartGuideNotebook } from "./quickStartGuideNotebook";
 
 export const useLocalStorage = () => {
 
@@ -9,7 +8,7 @@ export const useLocalStorage = () => {
     // load all notebooks from localStorage on mount
     useEffect(() => {
         //Create the quick start guide manual notebook
-        quickStartGuideNotebook();
+        //quickStartGuideNotebook();
 
         const notebooks: Notebook[] = Object.keys(localStorage)
             .filter(key => key.startsWith('miranda'))
